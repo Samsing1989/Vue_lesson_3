@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="zxx">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <title>Задача 1</title>
+    <style>
+      body {
+        font-size: 20px;
+      }
+      .lable {
+        font-size: 24px;
+        font-weight: 700;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        margin-bottom: 20px;
+      }
+      .input {
+        padding: 10px 20px;
+        max-width: 250px;
+        font-size: 20px;
+      }
+      .text {
+        margin-bottom: 10px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <h1>
+      Задача 1. З клавіатури вводиться довжина у сантиметрах. Виводити скільки
+      це метрів, кілометрів.
+    </h1>
+    <div id="myApp">
+      <label class="lable">
+        Введіть довжину в сантеметрах:
+        <input type="number" v-model="centimeter" class="input" />
+      </label>
+      <div class="text">Довжина в метрах : {{inMeter}} м</div>
+      <div class="text">Довжина в кілометрах : {{inKilometer}} км</div>
+    </div>
+
+    <script>
+      const { createApp } = Vue
+      const app = createApp({
+        data() {
+          return {
+            centimeter: null,
+          }
+        },
+        computed: {
+          inMeter() {
+            return this.centimeter / 100
+          },
+          inKilometer() {
+            return (this.inMeter / 1000).toFixed(2)
+          },
+        },
+      })
+      app.mount("#myApp")
+    </script>
+  </body>
+</html>

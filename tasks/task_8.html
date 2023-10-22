@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="zxx">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <title>Задача 8</title>
+    <style>
+      .lable {
+        font-size: 20px;
+        font-weight: 700;
+        display: flex;
+        gap: 10px;
+        margin-bottom: 20px;
+      }
+      .list {
+        font-size: 20px;
+      }
+      .item {
+        line-height: 1.3;
+      }
+    </style>
+  </head>
+
+  <body>
+    <h1>
+      Задача 8. Дано список автомобілів (марка, рік випуску, ціна). Сформувати
+      елементи для фільтрування з використанням випадаючого списку (контент цих
+      випадаючих списків сформувати у залежності від переданого списку).
+    </h1>
+    <div class="image">
+      <img src="./img/8.png" alt="8" />
+    </div>
+    <!-- //======================================================================================================================================================== -->
+
+    <div id="myApp">
+      <label class="lable"
+        >Виберіть марку авто:
+        <select v-model="selectedBrand">
+          <option
+            v-for="(brand,index) in isListBrend"
+            :key="index"
+            :value="brand"
+          >
+            {{brand}}
+          </option>
+        </select></label
+      >
+      <label class="lable"
+        >Виберіть рік:
+        <select v-model="selectedYear">
+          <option
+            v-for="(year,index) in isListYears"
+            :key="index"
+            :value="year"
+          >
+            {{year}}
+          </option>
+        </select></label
+      >
+      <ul class="list">
+        <li class="item" v-for="(newAuto, index) in listFilters" :key="index">
+          {{newAuto.brand}}: {{newAuto.year}} рік - {{newAuto.price}} $
+        </li>
+      </ul>
+    </div>
+    <script>
+      const { createApp } = Vue
+
+      const app = createApp({
+        data() {
+          return {
+            carsList: [
+              {
+                brand: "Honda",
+                year: 2014,
+                price: 10000,
+              },
+              {
+                brand: "Honda",
+                year: 2020,
+                price: 18000,
+              },
+              {
+                brand: "Honda",
+                year: 2022,
+                price: 28000,
+              },
+              {
+                brand: "Toyota",
+                year: 2010,
+                price: 24000,
+              },
+              {
+                brand: "Toyota",
+                year: 2017,
+                price: 14000,
+              },
+
+              {
+                brand: "Ford",
+                year: 2014,
+                price: 12000,
+              },
+              {
+                brand: "Ford",
+                year: 2018,
+                price: 18000,
+              },
+              {
+                brand: "Ford",
+                year: 2018,
+                price: 15000,
+              },
+              {
+                brand: "Ford",
+                year: 2016,
+                price: 12000,
+              },
+
+              {
+                brand: "Volkswagen",
+                year: 2016,
+                price: 13000,
+              },
+              {
+                brand: "Volkswagen",
+                year: 2020,
+                price: 25000,
+              },
+              {
+                brand: "Volkswagen",
+                year: 2013,
+                price: 10000,
+              },
+            ],
+
+            selectedBrand: null,
+            selectedYear: null,
+          }
+        },
+        computed: {
+          listFilters() {
+            let newCarsList
+            if (!this.selectedBrand && !this.selectedYear)
+              newCarsList = this.carsList
+            else if (this.selectedBrand && !this.selectedYear)
+              return (newCarsList = this.carsList.filter(
+                (car) => car.brand === this.selectedBrand
+              ))
+            else if (!this.selectedBrand && this.selectedYear)
+              newCarsList = this.carsList.filter(
+                (car) => car.year === this.selectedYear
+              )
+            else
+              newCarsList = this.carsList.filter(
+                (car) =>
+                  car.brand === this.selectedBrand &&
+                  car.year === this.selectedYear
+              )
+            return newCarsList
+          },
+          isListBrend() {
+            return (newBrendList = [
+              ...new Set(this.carsList.map((el) => el.brand)),
+            ])
+          },
+          isListYears() {
+            return (newYearsList = [
+              ...new Set(this.carsList.map((el) => el.year)),
+            ])
+          },
+        },
+      }).mount("#myApp")
+    </script>
+  </body>
+</html>

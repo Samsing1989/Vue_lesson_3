@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="zxx">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <title>Задача 7</title>
+    <style>
+      .conteiner {
+        font-size: 24px;
+        max-width: 500px;
+        border: 2px solid green;
+        padding: 20px;
+      }
+      .lable {
+        font-size: 30px;
+        font-family: 700;
+        display: flex;
+        gap: 20px;
+        color: red;
+        align-items: center;
+        margin-bottom: 20px;
+      }
+      .input {
+        padding: 10px 20px;
+        font-size: 24px;
+      }
+
+      .ol {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+    </style>
+  </head>
+
+  <body>
+    <h1>
+      Задача 7. Динамічний пошук. Є список працівників і поле пошуку. При
+      введенні відображаються усі, які містять вказаний фрагмент
+    </h1>
+    <div>
+      <img src="./img/7.png" alt="image" />
+    </div>
+    <!-- //======================================================================================================================================================== -->
+
+    <div id="myApp">
+      <div class="conteiner">
+        <label class="lable">
+          Ім'я
+          <input
+            type="text"
+            placeholder="я шукаю..."
+            v-model="searchWorkersName"
+            class="input"
+          />
+        </label>
+        <ol class="ol" v-if="filterWorkers.length">
+          <li class="li" v-for="(worker, index) in filterWorkers" :key="index">
+            {{worker}}
+          </li>
+        </ol>
+        <div class="text" v-else>немає такого працівника</div>
+      </div>
+    </div>
+    <script>
+      const { createApp } = Vue
+
+      const app = createApp({
+        data() {
+          return {
+            workers: [
+              "Іван",
+              "Петро",
+              "Степан",
+              "Олег",
+              "Сергій",
+              "Станіслав",
+              "Оксана",
+              "Наталія",
+              "Тетяна",
+              "Роксолана",
+              "Ольга",
+              "Марина",
+            ],
+            searchWorkersName: null,
+          }
+        },
+        computed: {
+          filterWorkers() {
+            if (!this.searchWorkersName) return this.workers
+            const search = this.searchWorkersName.toLowerCase()
+            return this.workers.filter((worker) =>
+              worker.toLowerCase().includes(search)
+            )
+          },
+        },
+      })
+      app.mount("#myApp")
+    </script>
+  </body>
+</html>

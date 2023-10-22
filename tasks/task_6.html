@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="zxx">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <title>Задача 6</title>
+    <style>
+      .conteiner {
+        display: flex;
+        gap: 100px;
+      }
+      .items {
+        border: 3px solid #000;
+        padding: 20px;
+        margin-bottom: 20px;
+      }
+      .lable {
+        margin-bottom: 20px;
+        font-size: 24px;
+        font-weight: 700;
+      }
+      .link {
+        font-size: 20px;
+        margin-bottom: 5px;
+        cursor: pointer;
+      }
+      .button {
+        margin-left: 150px;
+      }
+      .select {
+        color: red;
+        border: 1px solid red;
+        padding: 5px;
+      }
+      .items-block {
+        border: 3px solid #000;
+        max-width: 350px;
+        cursor: pointer;
+        margin-bottom: 5px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <h1>
+      Задача 6. Пари для танців. Поступово вибираємо хлопця, дівчину і додаємо у
+      обрані пари. Пару можна видалити. Поки не вибрано хлопця і дівчину кнопка
+      «Додати» заблокована. Якщо не вистачає хлопців або дівчат вибір також
+      блокується.
+    </h1>
+    <div>
+      <img src="./img/6.png" alt="image" />
+    </div>
+    <!-- //======================================================================================================================================================== -->
+
+    <div id="myApp">
+      <div class="conteiner">
+        <div class="items">
+          <div class="lable">Хлобці</div>
+          <div
+            class="link"
+            ref="boy"
+            v-for="(boys, index) in boysList"
+            :key="index"
+            @click="getDancersListBoys(index)"
+          >
+            {{boys}}
+          </div>
+        </div>
+        <div class="items">
+          <div class="lable">Дівчата</div>
+          <div
+            ref="girl"
+            class="link"
+            v-for="(girls, index) in girlsList"
+            :key="index"
+            @click="getDancersListgirls(index)"
+          >
+            {{girls}}
+          </div>
+        </div>
+      </div>
+      <button
+        class="button"
+        @click="onClickCouple"
+        :disabled="!isSelectedCouple"
+      >
+        Додати
+      </button>
+      <div class="lable">Обраті пари</div>
+
+      <div
+        class="items-block"
+        v-for="(couples, index) in dancersList"
+        :key="index"
+        @click="onDeliteDancersList(index)"
+      >
+        {{couples.boy }} - {{couples.girl}}
+      </div>
+    </div>
+    <script>
+      const { createApp } = Vue
+
+      const app = createApp({
+        data() {
+          return {
+            boysList: [
+              "Іван",
+              "Петро",
+              "Степан",
+              "Олег",
+              "Сергій",
+              "Станіслав",
+            ],
+            girlsList: [
+              "Оксана",
+              "Наталія",
+              "Тетяна",
+              "Роксолана",
+              "Ольга",
+              "Марина",
+            ],
+            dancersList: [],
+            couples: { boy: null, girl: null },
+          }
+        },
+        computed: {
+          isSelectedCouple() {
+            if (this.couples.boy !== null && this.couples.girl !== null)
+              return true
+            else return false
+          },
+        },
+        methods: {
+          getDancersListBoys(index) {
+            this.couples.boy = this.boysList[index]
+            if (this.$refs.boy && this.$refs.boy[index]) {
+              this.$refs.boy[index].classList.toggle("select")
+            }
+          },
+          getDancersListgirls(index) {
+            this.couples.girl = this.girlsList[index]
+            if (this.$refs.girl && this.$refs.girl[index]) {
+              this.$refs.girl[index].classList.toggle("select")
+            }
+          },
+          onClickCouple() {
+            this.dancersList.push(this.couples)
+            this.couples = { boy: null, girl: null }
+          },
+          onDeliteDancersList(index) {
+            let indexBoy = this.boysList.findIndex(
+              (nameBoy) => nameBoy === this.dancersList[index].boy
+            )
+            this.$refs.boy[indexBoy].classList.remove("select")
+
+            let indexGirl = this.girlsList.findIndex(
+              (nameGirl) => nameGirl === this.dancersList[index].girl
+            )
+            this.$refs.girl[indexGirl].classList.remove("select")
+
+            this.dancersList.splice(index, 1)
+          },
+        },
+      })
+      app.mount("#myApp")
+    </script>
+  </body>
+</html>

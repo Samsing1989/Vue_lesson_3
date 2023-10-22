@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="zxx">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <title>Задача 2</title>
+    <style>
+      .colorRed {
+        background-color: red;
+      }
+      .colorGreen {
+        background-color: green;
+      }
+      .colorBlue {
+        background-color: blue;
+      }
+      .colorWhite {
+        background-color: #e4e3e3;
+      }
+      .lable {
+        margin-top: 10px;
+        font-size: 30px;
+        font-weight: 700;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+      }
+      .input {
+        max-width: 250px;
+        padding: 10px 20px;
+        font-size: 20px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <h1>
+      Задача 2. З клавіатури вводиться температура. Змінювати колір фону у
+      залежності від значення:
+    </h1>
+    <ul>
+      <li>менше нуля – білий</li>
+      <li>від 0 до 10 – синій</li>
+      <li>від 11 до 22 – зелений</li>
+      <li>вище 22 – червоний</li>
+    </ul>
+    <div>Реалізувати з класами і стилями.</div>
+    <!-- //======================================================================================================================================================== -- -->
+
+    <div id="app">
+      <label class="lable">
+        Введіть температуру
+        <input
+          type="number"
+          v-model="temperature"
+          class="input"
+          :class="inTemperature"
+          :style="{backgroundColor: inTemperature}"
+        />
+      </label>
+    </div>
+
+    <script>
+      const { createApp } = Vue
+
+      const app = createApp({
+        data() {
+          return {
+            temperature: null,
+          }
+        },
+        computed: {
+          //  inTemperature() {
+          //    let colorСhange
+          //    if (this.temperature) {
+          //      if (this.temperature > 22) colorСhange = "colorRed"
+          //      else if (this.temperature > 11) colorСhange = "colorGreen"
+          //      else if (this.temperature > 0) colorСhange = "colorBlue"
+          //      else colorСhange = "colorWhite"
+          //    }
+          //    return colorСhange
+          //  },
+          inTemperature() {
+            let colorСhange
+            if (this.temperature) {
+              if (this.temperature > 22) colorСhange = "red"
+              else if (this.temperature > 11) colorСhange = "green"
+              else if (this.temperature > 0) colorСhange = "blue"
+              else colorСhange = "#e4e3e3"
+            }
+            return colorСhange
+          },
+        },
+      })
+      app.mount("#app")
+    </script>
+  </body>
+</html>
